@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DecentCrowd — Fund What Matters</title>
+<meta name="description" content="Decentralized crowdfunding for Sub-Saharan Africa. Milestone-based escrow, DAO governance, no intermediaries.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=80">
+<link rel="preload" as="image" href="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#FFFFFF;--surface:#F7F6F3;--surface2:#EFEDE8;--border:#E5E3DE;--border2:#CCCAC4;--ink:#0A0A0A;--ink2:#4A4845;--ink3:#8A8784;--r:12px;--sans:"Plus Jakarta Sans",sans-serif;--display:"Fraunces",serif;--nav-h:60px;}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:1240px;margin:0 auto;padding:0 2rem}
+@media(max-width:640px){.wrap{padding:0 1.25rem}}
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:var(--nav-h);display:flex;align-items:center;padding:0 2rem;gap:2rem;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);transition:background .3s}
+@media(max-width:640px){.nav{padding:0 1.25rem}}
+.nav-logo{font-family:var(--display);font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink);flex-shrink:0}
+.logo-mark{width:26px;height:26px;border-radius:6px;border:1.5px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.nav-links{display:flex;align-items:center;gap:1.75rem;margin-left:auto}
+.nav-links a{font-size:13px;font-weight:500;color:var(--ink3);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--ink)}
+.nav-cta{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 20px;border-radius:8px;font-family:var(--sans);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;border:none;white-space:nowrap}
+.btn-ink{background:var(--ink);color:#fff}.btn-ink:hover{background:#1a1a1a}
+.btn-ghost{background:transparent;color:var(--ink3);border:1px solid var(--border2)}.btn-ghost:hover{color:var(--ink)}
+.btn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--ink)}.btn-outline:hover{background:var(--ink);color:#fff}
+.btn-lg{padding:13px 28px;font-size:14px;border-radius:10px}
+@media(max-width:480px){.btn-lg{padding:13px 20px;font-size:13px;width:100%;justify-content:center}}
+.nav-hamburger{display:none;width:38px;height:38px;align-items:center;justify-content:center;background:none;border:1px solid var(--border2);border-radius:8px;cursor:pointer;flex-direction:column;gap:5px;margin-left:auto;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.nav-hamburger span{display:block;width:16px;height:1.5px;background:var(--ink);border-radius:2px;transition:all .3s;pointer-events:none}
+.nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+.nav-hamburger.open span:nth-child(2){opacity:0}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+@media(max-width:768px){.nav-links,.nav-cta{display:none}.nav-hamburger{display:flex}}
+.nav-mobile{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;border-bottom:1px solid var(--border);z-index:199;padding:1.25rem;flex-direction:column;box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.nav-mobile.open{display:flex}
+.nav-mobile a{padding:.875rem 0;font-size:15px;font-weight:500;color:var(--ink2);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s}
+.mob-cta{margin-top:1rem;display:flex;flex-direction:column;gap:8px}
+.hero{min-height:100svh;padding:110px 2rem 80px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+@media(max-width:640px){.hero{padding:90px 1.25rem 60px}}
+.hero-grid{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:60px 60px;opacity:.6;-webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 20%,transparent 100%);mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,black 20%,transparent 100%)}
+.hero-kicker{display:inline-flex;align-items:center;gap:8px;padding:5px 14px;border-radius:100px;border:1px solid var(--border2);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.75rem;background:var(--surface)}
+.kicker-dot{width:5px;height:5px;border-radius:50%;background:var(--ink);animation:blink 2.5s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+.hero-title{font-family:var(--display);font-size:clamp(2.8rem,9vw,7.5rem);font-weight:800;letter-spacing:-.03em;line-height:.94;margin-bottom:1.5rem;max-width:880px;color:var(--ink)}
+.hero-title em{font-style:italic;font-weight:300}
+@media(max-width:640px){.hero-title{font-size:clamp(2.6rem,13vw,4.5rem);line-height:.97}}
+.hero-sub{font-size:clamp(.95rem,1.8vw,1.1rem);line-height:1.8;color:var(--ink3);max-width:480px;margin:0 auto 2.25rem}
+.hero-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:3.5rem}
+@media(max-width:480px){.hero-actions{flex-direction:column;width:100%;max-width:300px}}
+.hero-stats{display:flex;border:1.5px solid var(--border2);border-radius:var(--r);overflow:hidden}
+@media(max-width:600px){.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);width:100%}}
+.hs-item{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:1.25rem 2rem;border-right:1px solid var(--border2);flex:1}
+.hs-item:last-child{border-right:none}
+@media(max-width:600px){.hs-item:nth-child(2){border-right:none}.hs-item:nth-child(3),.hs-item:nth-child(4){border-top:1px solid var(--border2)}.hs-item:nth-child(4){border-right:none}.hs-item{padding:1rem}}
+.hs-num{font-family:var(--display);font-size:1.65rem;font-weight:700;letter-spacing:-.03em;line-height:1}
+.hs-label{font-size:10px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3)}
+.ticker{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:9px 0;background:var(--surface)}
+.ticker-inner{display:flex;width:max-content;animation:ticker 32s linear infinite}
+.ticker-inner:hover{animation-play-state:paused}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.tick-item{display:flex;align-items:center;gap:10px;padding:0 2.5rem;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);white-space:nowrap;border-right:1px solid var(--border)}
+.tick-item strong{color:var(--ink)}
+.sec{padding:7rem 0}
+@media(max-width:768px){.sec{padding:5rem 0}}
+@media(max-width:480px){.sec{padding:3.5rem 0}}
+.sec-eye{font-size:10px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
+.sec-title{font-family:var(--display);font-size:clamp(1.9rem,4.5vw,3.25rem);font-weight:700;letter-spacing:-.03em;line-height:1.08;margin-bottom:1rem}
+@media(max-width:768px){.sec-title{font-size:clamp(1.7rem,7vw,2.5rem)}}
+.hiw-grid{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--border2);border-radius:var(--r);overflow:hidden;margin-top:3.5rem}
+@media(max-width:900px){.hiw-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.hiw-grid{grid-template-columns:1fr}}
+.hiw-step{padding:2rem;border-right:1px solid var(--border);background:var(--bg);transition:background .2s}
+.hiw-step:hover{background:var(--surface)}
+.hiw-step:last-child{border-right:none}
+@media(max-width:900px){.hiw-step:nth-child(2){border-right:none}.hiw-step:nth-child(3){border-top:1px solid var(--border)}.hiw-step:nth-child(4){border-top:1px solid var(--border);border-right:none}}
+@media(max-width:500px){.hiw-step{border-right:none!important;border-bottom:1px solid var(--border)}.hiw-step:last-child{border-bottom:none}}
+.hiw-num{font-family:var(--display);font-size:.7rem;font-weight:700;letter-spacing:.14em;color:var(--ink3);margin-bottom:1.25rem}
+.hiw-title{font-family:var(--display);font-size:1rem;font-weight:700;margin-bottom:.5rem;letter-spacing:-.01em}
+.hiw-desc{font-size:13px;line-height:1.75;color:var(--ink3)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3rem}
+@media(max-width:900px){.proj-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:580px){.proj-grid{grid-template-columns:1fr}}
+.proj-card{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;transition:all .25s;cursor:pointer;text-decoration:none;color:inherit;display:block}
+.proj-card:hover{border-color:var(--border2);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.07)}
+.proj-img{height:190px;overflow:hidden;border-bottom:1px solid var(--border);background:var(--surface)}
+.proj-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.proj-card:hover .proj-img img{transform:scale(1.04)}
+.proj-body{padding:1.25rem}
+.proj-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.proj-tag{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid var(--border2);color:var(--ink3)}
+.proj-tag-vf{border-color:var(--ink);color:var(--ink)}
+.proj-title{font-family:var(--display);font-size:.97rem;font-weight:700;letter-spacing:-.01em;line-height:1.32;margin-bottom:.45rem}
+.proj-desc{font-size:12px;line-height:1.65;color:var(--ink3);margin-bottom:1rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.proj-prog{height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-bottom:.75rem}
+.proj-prog-fill{height:100%;background:var(--ink);border-radius:2px}
+.proj-foot{display:flex;justify-content:space-between;align-items:center;font-size:11px;color:var(--ink3)}
+.proj-pct{font-family:var(--display);font-size:1.05rem;font-weight:700;color:var(--ink)}
+.dao-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+@media(max-width:768px){.dao-layout{grid-template-columns:1fr;gap:2.5rem}}
+.dao-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5px;background:var(--border2);border:1.5px solid var(--border2);border-radius:var(--r);overflow:hidden}
+@media(max-width:480px){.dao-grid{grid-template-columns:1fr}}
+.dao-cell{background:var(--bg);padding:1.5rem 1.75rem}
+.dao-num{font-family:var(--display);font-size:2rem;font-weight:700;letter-spacing:-.04em;line-height:1;margin-bottom:5px}
+.dao-label{font-size:11px;color:var(--ink3)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3.5rem}
+@media(max-width:800px){.testi-grid{grid-template-columns:1fr}}
+.testi{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--r);padding:1.5rem}
+.testi-quote{font-size:13.5px;line-height:1.82;color:var(--ink2);margin-bottom:1.25rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-av{width:34px;height:34px;border-radius:50%;background:var(--surface2);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:11px;font-weight:700;color:var(--ink3);flex-shrink:0}
+.testi-name{font-size:13px;font-weight:600;margin-bottom:1px}
+.testi-role{font-size:11px;color:var(--ink3)}
+.cta-wrap{background:var(--ink);color:#fff;border-radius:20px;padding:5rem 2rem;text-align:center;position:relative;overflow:hidden}
+@media(max-width:640px){.cta-wrap{padding:3.5rem 1.5rem;border-radius:16px}}
+.cta-glow{position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%,rgba(255,255,255,.05),transparent);pointer-events:none}
+.cta-title{font-family:var(--display);font-size:clamp(1.85rem,4.5vw,3.25rem);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:1rem;max-width:640px;margin-left:auto;margin-right:auto}
+.cta-sub{font-size:.975rem;color:rgba(255,255,255,.55);margin-bottom:2.25rem;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.8}
+.cta-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+@media(max-width:480px){.cta-btns{flex-direction:column;align-items:stretch;max-width:300px;margin:0 auto}}
+footer{background:var(--surface);border-top:1px solid var(--border);padding:2.5rem 0;margin-top:6rem}
+@media(max-width:640px){footer{margin-top:4rem;padding:2rem 0}}
+.footer-inner{max-width:1240px;margin:0 auto;padding:0 2rem;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:2rem}
+@media(max-width:640px){.footer-inner{padding:0 1.25rem}}
+.footer-note{font-size:12px;color:var(--ink3);line-height:1.7;max-width:280px;margin-top:.5rem}
+.footer-links-group{display:flex;flex-wrap:wrap;gap:3rem}
+@media(max-width:640px){.footer-links-group{gap:2rem}}
+.footer-col h4{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem}
+.footer-col a{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--ink3);text-decoration:none;margin-bottom:.5rem;transition:color .2s;width:100%}
+.footer-col a:hover{color:var(--ink)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;margin-top:2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;font-size:11px;color:var(--ink3)}
+.footer-bottom a{color:var(--ink3);text-decoration:none}
+@media(max-width:640px){.footer-bottom{flex-direction:column;align-items:flex-start}}
+.legal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(4px);z-index:500;align-items:center;justify-content:center;padding:1.25rem}
+.legal-overlay.open{display:flex}
+.legal-box{background:#fff;border-radius:16px;max-width:640px;width:100%;max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 80px rgba(0,0,0,.18)}
+@media(max-width:480px){.legal-box{border-radius:20px 20px 0 0;max-height:92vh;align-self:flex-end}.legal-overlay.open{align-items:flex-end;padding:0}}
+.legal-head{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.legal-head-title{font-family:var(--display);font-size:1.05rem;font-weight:700}
+.legal-close{background:none;border:1px solid var(--border);border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:18px;color:var(--ink3);display:flex;align-items:center;justify-content:center;line-height:1}
+.legal-body{padding:1.5rem;overflow-y:auto;font-size:13.5px;line-height:1.85;color:var(--ink2)}
+.legal-body h3{font-family:var(--display);font-size:.95rem;font-weight:700;margin:1.25rem 0 .4rem}
+.legal-body p{margin-bottom:.75rem}
+.legal-body a{color:var(--ink);font-weight:600}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a href="/" class="nav-logo"><div class="logo-mark">DC</div>DecentCrowd</a>
+  <div class="nav-links">
+    <a href="#how">How it Works</a><a href="#projects">Projects</a><a href="#dao">DAO</a><a href="#about">About</a>
+  </div>
+  <div class="nav-cta">
+    <a href="https://app.decentcrowd.cc" class="btn btn-ghost">Sign in</a>
+    <a href="https://app.decentcrowd.cc" class="btn btn-ink">Launch App</a>
+  </div>
+  <button class="nav-hamburger" id="hamburger" type="button" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="nav-mobile" id="nav-mobile">
+  <a href="#how" onclick="closeMobile()">How it Works</a>
+  <a href="#projects" onclick="closeMobile()">Projects</a>
+  <a href="#dao" onclick="closeMobile()">DAO</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <div class="mob-cta">
+    <a href="https://app.decentcrowd.cc" class="btn btn-ghost" style="justify-content:center">Sign in</a>
+    <a href="https://app.decentcrowd.cc" class="btn btn-ink" style="justify-content:center">Launch App</a>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-kicker"><span class="kicker-dot"></span>Built for Sub-Saharan Africa</div>
+  <h1 class="hero-title">Fund what<br><em>matters</em>,<br>on-chain.</h1>
+  <p class="hero-sub">Decentralized crowdfunding where backers and builders connect directly. Milestone-based escrow. DAO governance. No intermediaries.</p>
+  <div class="hero-actions">
+    <a href="https://app.decentcrowd.cc" class="btn btn-ink btn-lg">Explore Projects</a>
+    <a href="https://app.decentcrowd.cc" class="btn btn-outline btn-lg">Start a Campaign</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hs-item"><div class="hs-num">5,321</div><div class="hs-label">Projects funded</div></div>
+    <div class="hs-item"><div class="hs-num">$7.2M</div><div class="hs-label">Funds raised</div></div>
+    <div class="hs-item"><div class="hs-num">1.25M</div><div class="hs-label">Backers</div></div>
+    <div class="hs-item"><div class="hs-num">34</div><div class="hs-label">Countries</div></div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-inner">
+    <div class="tick-item">Lagos Solar Grid <strong>78% funded</strong></div>
+    <div class="tick-item">Dakar Mobile Clinic <strong>91% funded</strong></div>
+    <div class="tick-item">Harare Tech Hub <strong>Completed</strong></div>
+    <div class="tick-item">DAO Proposal P-003 <strong>Passed</strong></div>
+    <div class="tick-item">Accra Cooperative Farm <strong>54% funded</strong></div>
+    <div class="tick-item">2,891 active DAO voters <strong>this month</strong></div>
+    <div class="tick-item">Nairobi Creative Arts <strong>42% funded</strong></div>
+    <div class="tick-item">$2.1M released via milestones <strong>all-time</strong></div>
+    <div class="tick-item">Lagos Solar Grid <strong>78% funded</strong></div>
+    <div class="tick-item">Dakar Mobile Clinic <strong>91% funded</strong></div>
+    <div class="tick-item">Harare Tech Hub <strong>Completed</strong></div>
+    <div class="tick-item">DAO Proposal P-003 <strong>Passed</strong></div>
+    <div class="tick-item">Accra Cooperative Farm <strong>54% funded</strong></div>
+    <div class="tick-item">2,891 active DAO voters <strong>this month</strong></div>
+    <div class="tick-item">Nairobi Creative Arts <strong>42% funded</strong></div>
+    <div class="tick-item">$2.1M released via milestones <strong>all-time</strong></div>
+  </div>
+</div>
+
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-eye">How it works</div>
+    <h2 class="sec-title">From idea to funded<br>in four steps.</h2>
+    <div class="hiw-grid">
+      <div class="hiw-step"><div class="hiw-num">01</div><div class="hiw-title">Connect MetaMask</div><div class="hiw-desc">Install MetaMask, connect your wallet, and request test ETH. No KYC required. Sepolia testnet added automatically. <a href="https://docs.decentcrowd.cc" target="_blank" style="color:var(--ink);font-weight:600">Read the guide.</a></div></div>
+      <div class="hiw-step"><div class="hiw-num">02</div><div class="hiw-title">Browse Campaigns</div><div class="hiw-desc">Explore verified campaigns from builders across Africa. Filter by sector, country, and funding stage.</div></div>
+      <div class="hiw-step"><div class="hiw-num">03</div><div class="hiw-title">Fund via Escrow</div><div class="hiw-desc">Your pledge locks in a smart contract. Funds release only when milestones are DAO-verified. Full refund if the goal is not met.</div></div>
+      <div class="hiw-step"><div class="hiw-num">04</div><div class="hiw-title">DAO Verification</div><div class="hiw-desc">Token holders vote on milestone completions. Approved milestones trigger automatic tranche release. Full on-chain transparency.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="projects" style="padding-top:0">
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;margin-bottom:3rem">
+      <div><div class="sec-eye">Live on testnet</div><h2 class="sec-title" style="margin-bottom:0">Active campaigns</h2></div>
+      <a href="https://app.decentcrowd.cc" class="btn btn-ghost">View all</a>
+    </div>
+    <div class="proj-grid">
+      <a href="https://app.decentcrowd.cc" class="proj-card">
+        <div class="proj-img"><img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=600&q=80" alt="Lagos Solar Grid" width="600" height="190"></div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag proj-tag-vf">Verified</span><span class="proj-tag">Energy</span><span class="proj-tag">Nigeria</span></div>
+          <div class="proj-title">Lagos Solar Grid — Community Energy Access</div>
+          <div class="proj-desc">Bringing affordable solar power to 2,400 households across three Lagos neighbourhoods using decentralised micro-grid infrastructure.</div>
+          <div class="proj-prog"><div class="proj-prog-fill" style="width:78%"></div></div>
+          <div class="proj-foot"><div><span class="proj-pct">78%</span> funded</div><div>341 backers · 9d left</div></div>
+        </div>
+      </a>
+      <a href="https://app.decentcrowd.cc" class="proj-card">
+        <div class="proj-img"><img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=80" alt="Accra Farm" width="600" height="190"></div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag proj-tag-vf">Verified</span><span class="proj-tag">Agriculture</span><span class="proj-tag">Ghana</span></div>
+          <div class="proj-title">Accra Cooperative Farm — Direct Market Access</div>
+          <div class="proj-desc">Connecting 180 smallholder farmers to urban markets through a mobile-first logistics platform and shared cold storage network.</div>
+          <div class="proj-prog"><div class="proj-prog-fill" style="width:54%"></div></div>
+          <div class="proj-foot"><div><span class="proj-pct">54%</span> funded</div><div>212 backers · 22d left</div></div>
+        </div>
+      </a>
+      <a href="https://app.decentcrowd.cc" class="proj-card">
+        <div class="proj-img"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80" alt="Dakar Clinic" width="600" height="190"></div>
+        <div class="proj-body">
+          <div class="proj-tags"><span class="proj-tag proj-tag-vf">Verified</span><span class="proj-tag">Health</span><span class="proj-tag">Senegal</span></div>
+          <div class="proj-title">Dakar Mobile Clinic — Maternal Health Initiative</div>
+          <div class="proj-desc">Five mobile health units serving remote villages in Senegal with maternal care, diagnostics, and telemedicine access.</div>
+          <div class="proj-prog"><div class="proj-prog-fill" style="width:91%"></div></div>
+          <div class="proj-foot"><div><span class="proj-pct">91%</span> funded</div><div>567 backers · 4d left</div></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="dao" style="padding-top:0">
+  <div class="wrap">
+    <div class="dao-layout">
+      <div>
+        <div class="sec-eye">DAO Governance</div>
+        <h2 class="sec-title">Trust through<br>decentralisation.</h2>
+        <p style="font-size:.975rem;line-height:1.82;color:var(--ink3);max-width:420px">No single entity controls fund release. DC token holders vote on milestone completions. Approved milestones trigger on-chain release. Rejected milestones initiate a full refund.</p>
+      </div>
+      <div class="dao-grid">
+        <div class="dao-cell"><div class="dao-num">2,891</div><div class="dao-label">Active DAO voters</div></div>
+        <div class="dao-cell"><div class="dao-num">$2.1M</div><div class="dao-label">Released via milestones</div></div>
+        <div class="dao-cell"><div class="dao-num">94%</div><div class="dao-label">Milestone approval rate</div></div>
+        <div class="dao-cell"><div class="dao-num">48h</div><div class="dao-label">Average vote resolution</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="about" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-eye">From the community</div>
+    <h2 class="sec-title">Builders and backers<br>say it best.</h2>
+    <div class="testi-grid">
+      <div class="testi"><div class="testi-quote">"We raised $93,000 for our Lagos solar project in under three weeks. The milestone structure gave our backers real confidence — they could see exactly where every dollar was going."</div><div class="testi-author"><div class="testi-av">EA</div><div><div class="testi-name">Emeka Adeyemi</div><div class="testi-role">Creator · Lagos Solar Grid</div></div></div></div>
+      <div class="testi"><div class="testi-quote">"I have backed twelve projects through DecentCrowd. The DAO voting process is the first time I actually had a say in whether founders did what they promised."</div><div class="testi-author"><div class="testi-av">AM</div><div><div class="testi-name">Adaeze Mensah</div><div class="testi-role">Top Backer · $12,400 pledged</div></div></div></div>
+      <div class="testi"><div class="testi-quote">"The escrow model removes the biggest barrier to African crowdfunding — trust. Our backers knew their money could not disappear. That changed everything for our clinic campaign."</div><div class="testi-author"><div class="testi-av">FD</div><div><div class="testi-name">Fatou Diallo</div><div class="testi-role">Creator · Dakar Mobile Clinic</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta-wrap">
+      <div class="cta-glow"></div>
+      <div class="sec-eye" style="color:rgba(255,255,255,.45)">Get started</div>
+      <h2 class="cta-title">Ready to fund the next generation of African builders?</h2>
+      <p class="cta-sub">Connect your wallet, explore live campaigns, and back projects that create real-world impact with full on-chain transparency.</p>
+      <div class="cta-btns">
+        <a href="https://app.decentcrowd.cc" class="btn btn-lg" style="background:#fff;color:#0A0A0A">Open App</a>
+        <a href="https://app.decentcrowd.cc" class="btn btn-lg" style="background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.3)">Launch a Campaign</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="nav-logo" style="margin-bottom:.5rem"><div class="logo-mark">DC</div>DecentCrowd</div>
+      <p class="footer-note">Decentralized crowdfunding for Sub-Saharan Africa. Built on Ethereum Sepolia Testnet. Non-custodial. 2.5% platform fee.</p>
+    </div>
+    <div class="footer-links-group">
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="https://app.decentcrowd.cc">App</a>
+        <a href="#how">How it Works</a>
+        <a href="#projects">Projects</a>
+        <a href="#dao">DAO</a>
+      </div>
+      <div class="footer-col">
+        <h4>Builders</h4>
+        <a href="https://app.decentcrowd.cc">Start a Campaign</a>
+        <a href="https://docs.decentcrowd.cc" target="_blank" rel="noopener">Documentation <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        <a href="https://docs.decentcrowd.cc/contracts" target="_blank" rel="noopener">Smart Contracts <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="/cdn-cgi/l/email-protection#f098959c9c9fb0949593959e8493829f8794de9393">Contact</a>
+        <a href="https://x.com/abvcha" target="_blank" rel="noopener">X (Twitter) <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+        <a href="https://warpcast.com/abvcha" target="_blank" rel="noopener">Farcaster <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="footer-bottom">
+      <span>2025 DecentCrowd. All rights reserved.</span>
+      <div style="display:flex;gap:1.5rem">
+        <a href="#" onclick="openLegal('privacy');return false;">Privacy Policy</a>
+        <a href="#" onclick="openLegal('terms');return false;">Terms &amp; Conditions</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div class="legal-overlay" id="legal-overlay">
+  <div class="legal-box">
+    <div class="legal-head">
+      <div class="legal-head-title" id="legal-title"></div>
+      <button class="legal-close" onclick="closeLegal()" type="button">&#215;</button>
+    </div>
+    <div class="legal-body" id="legal-body"></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+document.addEventListener('DOMContentLoaded', function() {
+
+  var hamburger = document.getElementById('hamburger');
+  var navMobile = document.getElementById('nav-mobile');
+  if (!hamburger || !navMobile) return;
+
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var open = navMobile.classList.contains('open');
+    if (open) {
+      navMobile.classList.remove('open');
+      hamburger.classList.remove('open');
+      document.body.style.overflow = '';
+    } else {
+      navMobile.classList.add('open');
+      hamburger.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  function closeMobile() {
+    navMobile.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Expose closeMobile globally for inline onclick handlers
+  window.closeMobile = closeMobile;
+
+  document.addEventListener('click', function(e) {
+    if (navMobile.classList.contains('open') &&
+        !navMobile.contains(e.target) &&
+        !hamburger.contains(e.target)) {
+      closeMobile();
+    }
+  });
+
+  window.addEventListener('scroll', function() {
+    var nav = document.getElementById('nav');
+    if (nav) {
+      nav.style.background = window.scrollY > 40
+        ? 'rgba(255,255,255,.98)'
+        : 'rgba(255,255,255,.95)';
+    }
+  }, { passive: true });
+
+  var LEGAL = {
+    privacy: {
+      title: 'Privacy Policy',
+      body: '<p><strong>Last updated: March 2026</strong></p><h3>1. Information We Collect</h3><p>DecentCrowd is a non-custodial, decentralised platform. We do not collect personal identification information unless you voluntarily provide it. Your Ethereum wallet address is publicly visible on the Sepolia testnet.</p><h3>2. Blockchain Data</h3><p>All transactions are recorded on the public Ethereum blockchain. This data is immutable and publicly accessible. We cannot delete or modify blockchain records.</p><h3>3. Cookies and Analytics</h3><p>We may use minimal, privacy-respecting analytics. We do not use advertising cookies or sell your data to third parties.</p><h3>4. Contact</h3><p>Questions? Email <a href="mailto:hello@decentcrowd.cc">hello@decentcrowd.cc</a></p>'
+    },
+    terms: {
+      title: 'Terms & Conditions',
+      body: '<p><strong>Last updated: March 2026</strong></p><p>By accessing DecentCrowd you agree to these Terms.</p><h3>1. Nature of the Platform</h3><p>DecentCrowd runs on Ethereum Sepolia Testnet. All ETH is test ETH with no real monetary value.</p><h3>2. User Responsibilities</h3><p>You are solely responsible for securing your wallet and private keys. We cannot recover lost wallets or reverse transactions.</p><h3>3. Smart Contract Risk</h3><p>Smart contracts may contain bugs. Use the Platform at your own risk.</p><h3>4. Platform Fee</h3><p>A 2.5% fee is deducted from each milestone release automatically by the smart contract.</p><h3>5. No Financial Advice</h3><p>Nothing on this Platform constitutes financial, legal, or investment advice.</p>'
+    }
+  };
+
+  window.openLegal = function(type) {
+    var overlay = document.getElementById('legal-overlay');
+    var title   = document.getElementById('legal-title');
+    var body    = document.getElementById('legal-body');
+    if (!overlay || !title || !body) return;
+    title.textContent   = LEGAL[type].title;
+    body.innerHTML      = LEGAL[type].body;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeLegal = function() {
+    var overlay = document.getElementById('legal-overlay');
+    if (overlay) overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  var overlay = document.getElementById('legal-overlay');
+  if (overlay) {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) window.closeLegal();
+    });
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') window.closeLegal();
+  });
+
+});
+</script>
+</body>
+</html>
